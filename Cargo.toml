@@ -293,6 +293,11 @@ name = "any-pool"
 path = "tests/any/pool.rs"
 required-features = ["any"]
 
+[[test]]
+name = "any-driver-options"
+path = "tests/any/driver_options.rs"
+required-features = ["any"]
+
 #
 # Migrations
 #

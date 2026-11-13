@@ -68,7 +68,12 @@ impl AnyConnection {
         <DB::Connection as Connection>::Options:
             for<'b> TryFrom<&'b AnyConnectOptions, Error = Error>,
     {
-        let res = TryFrom::try_from(options);
+        let res: Result<<DB::Connection as Connection>::Options, Error> = options
+            .driver_options()
+            .and_then(|prepared| match prepared {
+                Some(prepared) => Ok(prepared),
+                None => TryFrom::try_from(options),
+            });
 
         Box::pin(async move {
             let mut options: <DB::Connection as Connection>::Options = res?;
